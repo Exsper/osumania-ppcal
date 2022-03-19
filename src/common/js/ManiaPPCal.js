@@ -79,7 +79,7 @@ class PPCal {
   getComputeScore() {
     /** mod分数加成 */
     let scoreMultiplier = this.getScoreMultiplier();
-    this.maxScore *= scoreMultiplier;
+    this.maxScore = parseInt(this.maxScore * scoreMultiplier);
     return this.score / scoreMultiplier;
   }
 
