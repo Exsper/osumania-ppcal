@@ -1,6 +1,7 @@
 <template>
   <div class="app-tab">
     <router-link to="/">mania pp计算</router-link>
+    <router-link to="/sayo">还不快谢谢小夜</router-link>
     <router-link to="/about">关于</router-link>
   </div>
   <div class="app-content">

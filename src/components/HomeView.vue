@@ -117,7 +117,6 @@ export default {
           isNF: this.isNF,
           score: this.score,
         };
-        console.log(data);
         let pc = new PPCal(data);
         this.pp = pc.totalValue.toFixed(2);
         this.maxScore = pc.maxScore;
