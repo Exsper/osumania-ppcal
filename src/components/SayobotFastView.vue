@@ -1,21 +1,23 @@
 <template>
   <div class="home">
-    <span>仅只支持mania专谱的无mod成绩！</span>
+    <span> {{ $t("message.option_sayo_only_mania_no_mod") }}</span>
     <br />
     <span>bid：</span>
     <input v-model.number="bid" />
-    <button @click="getData">从小夜获取数据</button>
+    <button @click="getData">
+      {{ $t("message.button_get_data_from_sayo") }}
+    </button>
     <br />
-    <span>谱面星数：★{{ sr }}</span>
+    <span> {{ $t("message.option_stars") }} ★{{ sr }}</span>
     <br />
-    <span>谱面OD：{{ od }}</span>
+    <span> {{ $t("message.option_od") }} {{ od }}</span>
     <br />
-    <span>谱面物件数：{{ objCount }}</span>
+    <span> {{ $t("message.option_objCount") }} {{ objCount }}</span>
     <br />
-    <span>得分：</span>
+    <span>{{ $t("message.option_score") }}</span>
     <input class="mid" v-model.number="score" @input="cal" />
     <br />
-    <span>pp：{{ pp }}</span>
+    <span>PP：{{ pp }}</span>
   </div>
 </template>
 
@@ -32,7 +34,7 @@ export default {
       od: 8,
       objCount: 2000,
       score: 1000000,
-      pp: "输入数据立即计算",
+      pp: this.$i18n.messages[this.$i18n.locale].message.info_enter_data,
     };
   },
   methods: {

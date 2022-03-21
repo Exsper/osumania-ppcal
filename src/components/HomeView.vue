@@ -1,15 +1,19 @@
 <template>
   <div class="home">
     <input type="checkbox" id="isConvert" v-model="isConvert" @change="cal" />
-    <label for="isConvert">转谱</label>
-    <span v-bind:hidden="isConvert === false">谱面默认键数：</span>
+    <label for="isConvert">{{ $t("message.option_mapIsConvert") }}</label>
+    <span v-bind:hidden="isConvert === false">{{
+      $t("message.option_mapKeys")
+    }}</span>
     <input
       class="short"
       v-model.number="mapKeys"
       @input="changeMapKeys"
       v-bind:hidden="isConvert === false"
     />
-    <span v-bind:hidden="isConvert === false">游玩键数：</span>
+    <span v-bind:hidden="isConvert === false">{{
+      $t("message.option_playKeys")
+    }}</span>
     <input
       class="short"
       v-model.number="playKeys"
@@ -17,12 +21,14 @@
       v-bind:hidden="isConvert === false"
     />
     <br />
-    <span>谱面星数（Mod加成后）：★</span>
+    <span>{{ $t("message.option_stars_with_mods") }} ★</span>
     <input class="short" v-model.number="sr" @input="cal" />
     <br />
-    <span>谱面OD（Mod加成前）：OD</span>
+    <span>{{ $t("message.option_od_without_mods") }} OD</span>
     <input class="short" v-model.number="od" @input="OD2ModOD" />
-    <span v-bind:hidden="!(isHR === true || isEZ === true)">加成后 OD</span>
+    <span v-bind:hidden="!(isHR === true || isEZ === true)"
+      >{{ $t("message.option_od_with_mods") }} OD</span
+    >
     <input
       class="short"
       v-bind:hidden="!(isHR === true || isEZ === true)"
@@ -30,7 +36,7 @@
       @input="ModOD2OD"
     />
     <br />
-    <span>谱面物件数：</span>
+    <span>{{ $t("message.option_objCount") }}</span>
     <input class="mid" v-model.number="objCount" @input="cal" />
     <br />
     <span>Mods：</span>
@@ -40,20 +46,14 @@
     <br />
     <span>Mods：</span>
     <button :class="isHR ? 'checkedmod' : ''" @click="changeHR">HR</button>
-    <button
-      :class="isDT ? 'checkedmod' : ''"
-      @click="changeDT"
-      title="这个mod在这里好像没什么用"
-    >
-      DT
-    </button>
+    <button :class="isDT ? 'checkedmod' : ''" @click="changeDT">DT</button>
     <br />
-    <span>得分：</span>
+    <span>{{ $t("message.option_score") }}</span>
     <input class="mid" v-model.number="score" @input="cal" />
-    <span>满分：{{ maxScore }}</span>
+    <span>{{ $t("message.option_maxScore") }}{{ maxScore }}</span>
     <br />
     <br />
-    <span>pp：{{ pp }}</span>
+    <span>PP：{{ pp }}</span>
   </div>
 </template>
 
@@ -77,7 +77,7 @@ export default {
       isHT: false,
       isNF: false,
       score: 1000000,
-      pp: "输入数据立即计算",
+      pp: this.$i18n.messages[this.$i18n.locale].message.info_enter_data,
       maxScore: 1000000,
     };
   },
