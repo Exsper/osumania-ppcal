@@ -1,8 +1,10 @@
 <template>
   <div class="app-tab">
-    <router-link to="/">mania pp计算</router-link>
-    <router-link to="/sayo">小夜帮填</router-link>
-    <router-link to="/about">关于</router-link>
+    <router-link to="/">{{ $t("message.page_mania_pp_cal") }}</router-link>
+    <router-link to="/sayo">{{
+      $t("message.page_mania_pp_cal_sayo")
+    }}</router-link>
+    <router-link to="/about">{{ $t("message.page_about") }}</router-link>
     <span class="spanlang" @click="changeLaguages">{{ langText }}</span>
   </div>
   <div class="app-content">
@@ -76,16 +78,15 @@ export default {
 .spanlang {
   float: right;
   padding: 0 10px;
-  width: 100px;
+  width: 50px;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 12px;
   line-height: 50px;
   border: 1px solid #c2b1ff;
   height: 50px;
   cursor: pointer;
   background: #d0c3ff;
   text-align: center;
-  text-decoration: none;
   white-space: nowrap;
 }
 </style>
