@@ -3,10 +3,15 @@
     <span> {{ $t("message.option_sayo_only_mania_no_mod") }}</span>
     <br />
     <span>bid：</span>
-    <input v-model.number="bid" />
-    <button @click="getData">
+    <el-input-number
+      :controls="false"
+      class="mx-4"
+      v-model="bid"
+      @input="cal"
+    />
+    <el-button type="primary" @click="getData">
       {{ $t("message.button_get_data_from_sayo") }}
-    </button>
+    </el-button>
     <br />
     <span> {{ $t("message.option_stars") }} ★{{ sr }}</span>
     <br />
@@ -15,7 +20,14 @@
     <span> {{ $t("message.option_objCount") }} {{ objCount }}</span>
     <br />
     <span>{{ $t("message.option_score") }}</span>
-    <input class="mid" v-model.number="score" @input="cal" />
+    <el-input-number
+      class="mx-4"
+      :min="0"
+      :max="1000000"
+      :step="100000"
+      v-model="score"
+      @input="cal"
+    />
     <br />
     <span>PP：{{ pp }}</span>
   </div>
@@ -71,23 +83,8 @@ export default {
 </script>
 
 <style scoped>
-input.mid {
-  width: 80px;
-}
-button {
-  width: 120px;
-  height: 35px;
-  margin: 7px;
-  font-size: 14px;
-  text-align: center;
-}
 span {
   padding: 12px 2px;
   font-size: 20px;
-}
-input {
-  height: 20px;
-  font-size: 16px;
-  margin: 7px 3px 7px 0;
 }
 </style>

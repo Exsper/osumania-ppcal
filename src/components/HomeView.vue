@@ -1,7 +1,8 @@
 <template>
   <div class="home">
-    <input type="checkbox" id="isConvert" v-model="isConvert" @change="cal" />
-    <label for="isConvert">{{ $t("message.option_mapIsConvert") }}</label>
+    <el-checkbox v-model="isConvert" @change="cal" size="large" border>
+      {{ $t("message.option_mapIsConvert") }}
+    </el-checkbox>
     <span v-bind:hidden="isConvert === false">{{
       $t("message.option_mapKeys")
     }}</span>
@@ -22,7 +23,14 @@
     />
     <br />
     <span>{{ $t("message.option_stars_with_mods") }} ★</span>
-    <input class="short" v-model.number="sr" @input="cal" />
+    <el-input-number
+      controls-position="right"
+      class="mx-4"
+      v-model="sr"
+      :precision="2"
+      :step="0.1"
+      @input="cal"
+    />
     <br />
     <span>{{ $t("message.option_od_without_mods") }} OD</span>
     <input class="short" v-model.number="od" @input="OD2ModOD" />
@@ -37,19 +45,75 @@
     />
     <br />
     <span>{{ $t("message.option_objCount") }}</span>
-    <input class="mid" v-model.number="objCount" @input="cal" />
+    <el-input-number
+      class="mx-4"
+      :min="0"
+      :step="200"
+      v-model="objCount"
+      @input="cal"
+    />
     <br />
-    <span>Mods：</span>
-    <button :class="isEZ ? 'checkedmod' : ''" @click="changeEZ">EZ</button>
-    <button :class="isHT ? 'checkedmod' : ''" @click="changeHT">HT</button>
-    <button :class="isNF ? 'checkedmod' : ''" @click="changeNF">NF</button>
-    <br />
-    <span>Mods：</span>
-    <button :class="isHR ? 'checkedmod' : ''" @click="changeHR">HR</button>
-    <button :class="isDT ? 'checkedmod' : ''" @click="changeDT">DT</button>
+    <el-row :gutter="20">
+      <el-col :span="3"><span>Mods：</span></el-col>
+      <el-col :span="2">
+        <el-button
+          type="primary"
+          plain
+          :class="isEZ ? 'checkedmod' : ''"
+          @click="changeEZ"
+          >EZ</el-button
+        ></el-col
+      >
+      <el-col :span="2">
+        <el-button
+          type="primary"
+          plain
+          :class="isNF ? 'checkedmod' : ''"
+          @click="changeNF"
+          >NF</el-button
+        ></el-col
+      >
+      <el-col :span="2">
+        <el-button
+          type="primary"
+          plain
+          :class="isHT ? 'checkedmod' : ''"
+          @click="changeHT"
+          >HT</el-button
+        ></el-col
+      >
+    </el-row>
+    <el-row :gutter="20">
+      <el-col :span="2" :offset="3">
+        <el-button
+          type="primary"
+          plain
+          :class="isHR ? 'checkedmod' : ''"
+          @click="changeHR"
+          >HR</el-button
+        ></el-col
+      >
+      <el-col :span="2" :offset="2">
+        <el-button
+          type="primary"
+          plain
+          :class="isDT ? 'checkedmod' : ''"
+          @click="changeDT"
+          >DT</el-button
+        ></el-col
+      >
+    </el-row>
+
     <br />
     <span>{{ $t("message.option_score") }}</span>
-    <input class="mid" v-model.number="score" @input="cal" />
+    <el-input-number
+      class="mx-4"
+      :min="0"
+      :max="1000000"
+      :step="100000"
+      v-model="score"
+      @input="cal"
+    />
     <span>{{ $t("message.option_maxScore") }}{{ maxScore }}</span>
     <br />
     <br />
@@ -67,10 +131,10 @@ export default {
       isConvert: false,
       mapKeys: 4,
       playKeys: 4,
-      sr: 8,
+      sr: 5,
       od: 8,
       od_mod: 8,
-      objCount: 2000,
+      objCount: 1000,
       isHR: false,
       isEZ: false,
       isDT: false,
@@ -171,11 +235,17 @@ button {
   font-size: 14px;
   text-align: center;
 }
+button:focus {
+  background-color: var(--el-color-primary-light-9);
+  color: var(--el-color-primary);
+}
 button.checkedmod {
   width: 45px;
   height: 45px;
   margin: 2px;
   font-size: 18px;
+  color: #ffffff;
+  background-color: var(--el-color-primary);
 }
 span {
   padding: 12px 2px;
@@ -185,16 +255,5 @@ input {
   height: 20px;
   font-size: 16px;
   margin: 7px 3px 7px 0;
-}
-input[type="checkbox"] {
-  width: 25px;
-  height: 25px;
-  text-align: center;
-  vertical-align: sub;
-  margin: 15px 0 12px 5px;
-}
-label {
-  font-size: 20px;
-  margin: 0 20px 0 0;
 }
 </style>
