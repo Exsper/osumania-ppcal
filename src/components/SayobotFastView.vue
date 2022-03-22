@@ -36,8 +36,13 @@
 <script>
 import PPCal from "@/common/js/ManiaPPCal";
 import SayobotApi from "@/common/js/SayobotApi";
+import { ElButton, ElInputNumber } from "element-plus";
 
 export default {
+  components: {
+    ElButton,
+    ElInputNumber,
+  },
   name: "SayobotFastView",
   data() {
     return {
@@ -69,7 +74,6 @@ export default {
     async getData() {
       try {
         let data = await SayobotApi.search(this.bid);
-        console.log(data);
         this.sr = data.sr;
         this.od = data.od;
         this.objCount = data.objCount;

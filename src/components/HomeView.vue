@@ -123,8 +123,22 @@
 
 <script>
 import PPCal from "@/common/js/ManiaPPCal";
+import {
+  ElButton,
+  ElCheckbox,
+  ElRow,
+  ElInputNumber,
+  ElCol,
+} from "element-plus";
 
 export default {
+  components: {
+    ElButton,
+    ElCheckbox,
+    ElRow,
+    ElCol,
+    ElInputNumber,
+  },
   name: "HomeView",
   data() {
     return {

@@ -21,8 +21,16 @@
 
 <script>
 import { ref } from "vue";
+import { ElButton, ElMenu, ElMenuItem, ElMain } from "element-plus";
+
 const activeIndex = ref("/");
 export default {
+  components: {
+    ElButton,
+    ElMenu,
+    ElMenuItem,
+    ElMain,
+  },
   data() {
     return {
       activeIndex,
