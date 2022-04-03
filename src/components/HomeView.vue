@@ -118,11 +118,14 @@
     <br />
     <br />
     <span>PP：{{ pp }}</span>
+    <br />
+    <span v-bind:hidden="plotlyReady">折线图模块加载中....</span>
+    <div id="graph" v-bind:hidden="plotlyReady === false"></div>
   </div>
 </template>
 
 <script>
-import PPCal from "@/common/js/ManiaPPCal";
+import { PPCal, DrawInfo } from "@/common/js/ManiaPPCal";
 import {
   ElButton,
   ElCheckbox,
@@ -140,6 +143,16 @@ export default {
     ElInputNumber,
   },
   name: "HomeView",
+  setup() {
+    let element = document.createElement("script");
+    element.setAttribute("src", "https://cdn.plot.ly/plotly-latest.min.js");
+    document.getElementsByTagName("head")[0].appendChild(element);
+    /*
+    element.onload = function () {
+      this.plotlyReady = true;
+    };
+    */
+  },
   data() {
     return {
       isConvert: false,
@@ -157,6 +170,8 @@ export default {
       score: 1000000,
       pp: this.$i18n.messages[this.$i18n.locale].message.info_enter_data,
       maxScore: 1000000,
+
+      plotlyReady: false,
     };
   },
   methods: {
@@ -201,9 +216,19 @@ export default {
         if (this.score > this.maxScore) {
           this.score = this.maxScore;
           this.cal();
+          return;
         } else if (this.score === this.maxScore / 2) {
           this.score = this.maxScore;
           this.cal();
+          return;
+        }
+        if (window.Plotly) {
+          this.plotlyReady = true;
+          let di = new DrawInfo(data, this.maxScore);
+          window.Plotly.newPlot("graph", [di.getTrace()], di.getLayout(), {
+            scrollZoom: true,
+            responsive: true,
+          });
         }
       }
     },
@@ -269,5 +294,8 @@ input {
   height: 20px;
   font-size: 16px;
   margin: 7px 3px 7px 0;
+}
+#graph {
+  width: 538px;
 }
 </style>

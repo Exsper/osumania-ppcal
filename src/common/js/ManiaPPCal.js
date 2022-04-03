@@ -143,4 +143,72 @@ class PPCal {
   }
 }
 
-module.exports = PPCal;
+class DrawInfo {
+  /**
+   * @param {Object} data 谱面和成绩数据
+   * @param {number} maxScore 满分
+   */
+  constructor(data, maxScore) {
+    this.data = data;
+    this.maxScore = maxScore;
+  }
+
+  getX() {
+    let dataCount = 50;
+    let x = [];
+    let step = parseInt((this.maxScore - this.data.score) / dataCount);
+    if (step <= 0) return [this.data.score, this.maxScore];
+    let s = this.data.score;
+    for (let i = 0; i < dataCount; i++) {
+      x.push(s);
+      s += step;
+    }
+    x.push(this.maxScore);
+    // 去重
+    return [...new Set(x)];
+  }
+
+  getTrace() {
+    let x = this.getX();
+    let y = x.map((s) => {
+      let data = this.data;
+      data.score = s;
+      return new PPCal(data).totalValue;
+    });
+    return {
+      x,
+      y,
+      name: this.name,
+      showlegend: false,
+      type: "scatter",
+    };
+  }
+
+  getLayout() {
+    let layout = {
+      title: {
+        text: "pp曲线",
+      },
+      xaxis: {
+        title: {
+          text: "得分",
+        },
+        exponentformat: "none",
+        showgrid: true,
+        gridwidth: 2,
+      },
+      yaxis: {
+        title: {
+          text: "pp",
+        },
+        exponentformat: "none",
+        showgrid: true,
+        gridwidth: 2,
+      },
+    };
+    return layout;
+  }
+}
+
+module.exports.PPCal = PPCal;
+module.exports.DrawInfo = DrawInfo;

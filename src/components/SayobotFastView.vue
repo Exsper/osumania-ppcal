@@ -30,11 +30,14 @@
     />
     <br />
     <span>PP：{{ pp }}</span>
+    <br />
+    <span v-bind:hidden="plotlyReady">折线图模块加载中....</span>
+    <div id="graph" v-bind:hidden="plotlyReady === false"></div>
   </div>
 </template>
 
 <script>
-import PPCal from "@/common/js/ManiaPPCal";
+import { PPCal, DrawInfo } from "@/common/js/ManiaPPCal";
 import SayobotApi from "@/common/js/SayobotApi";
 import { ElButton, ElInputNumber } from "element-plus";
 
@@ -44,6 +47,16 @@ export default {
     ElInputNumber,
   },
   name: "SayobotFastView",
+  setup() {
+    let element = document.createElement("script");
+    element.setAttribute("src", "https://cdn.plot.ly/plotly-latest.min.js");
+    document.getElementsByTagName("head")[0].appendChild(element);
+    /*
+    element.onload = function () {
+      this.plotlyReady = true;
+    };
+    */
+  },
   data() {
     return {
       bid: 1234567,
@@ -52,6 +65,8 @@ export default {
       objCount: 2000,
       score: 1000000,
       pp: this.$i18n.messages[this.$i18n.locale].message.info_enter_data,
+
+      plotlyReady: false,
     };
   },
   methods: {
@@ -70,6 +85,14 @@ export default {
       };
       let pc = new PPCal(data);
       this.pp = pc.totalValue.toFixed(2);
+      if (window.Plotly) {
+        this.plotlyReady = true;
+        let di = new DrawInfo(data, pc.maxScore);
+        window.Plotly.newPlot("graph", [di.getTrace()], di.getLayout(), {
+          scrollZoom: true,
+          responsive: true,
+        });
+      }
     },
     async getData() {
       try {
@@ -90,5 +113,8 @@ export default {
 span {
   padding: 12px 2px;
   font-size: 20px;
+}
+#graph {
+  width: 538px;
 }
 </style>
