@@ -12,7 +12,13 @@
     <el-button type="primary" @click="getData">
       {{ $t("message.button_get_data_from_sayo") }}
     </el-button>
+    <el-button type="primary" @click="setSearchPanel">我不知道bid</el-button>
     <br />
+    <SearchPanel
+      v-if="showSearchPanel"
+      @selectBid="selectBid"
+      @removeSearchPanel="removeSearchPanel"
+    />
     <span> {{ $t("message.option_stars") }} ★{{ sr }}</span>
     <br />
     <span> {{ $t("message.option_od") }} {{ od }}</span>
@@ -40,11 +46,14 @@
 import { PPCal, DrawInfo } from "@/common/js/ManiaPPCal";
 import SayobotApi from "@/common/js/SayobotApi";
 import { ElButton, ElInputNumber } from "element-plus";
+import SearchPanel from "@/components/SearchPanel.vue";
 
 export default {
   components: {
     ElButton,
     ElInputNumber,
+
+    SearchPanel,
   },
   name: "SayobotFastView",
   setup() {
@@ -59,6 +68,8 @@ export default {
   },
   data() {
     return {
+      showSearchPanel: false,
+
       bid: 1234567,
       sr: 8,
       od: 8,
@@ -104,6 +115,17 @@ export default {
       } catch (ex) {
         this.pp = ex;
       }
+    },
+    setSearchPanel() {
+      this.showSearchPanel = true;
+    },
+    async selectBid(bid) {
+      this.bid = bid;
+      this.removeSearchPanel();
+      this.getData();
+    },
+    removeSearchPanel() {
+      this.showSearchPanel = false;
     },
   },
 };
