@@ -10,17 +10,18 @@
       stripe
       style="width: 100%"
       v-bind:hidden="selectBidMode"
+      size="small"
     >
-      <el-table-column prop="sid" label="sid" width="100" />
-      <el-table-column width="40">
+      <el-table-column prop="sid" label="sid" width="70" />
+      <el-table-column width="50">
         <template v-slot="thumbScope">
-          <img :src="thumbScope.row.thumb" width="40" height="30" />
+          <img :src="thumbScope.row.thumb" width="50" height="37" />
         </template>
       </el-table-column>
-      <el-table-column prop="status" label="Status" width="80" />
+      <el-table-column prop="status" label="Status" width="60" />
       <el-table-column prop="title" label="Title" />
       <el-table-column prop="creator" label="Creator" width="80" />
-      <el-table-column label="Select" fixed="right" width="80">
+      <el-table-column label="Select" fixed="right" width="60">
         <template #default="setScope">
           <el-button
             type="text"
@@ -36,6 +37,7 @@
       stripe
       style="width: 100%"
       v-bind:hidden="!selectBidMode"
+      size="small"
     >
       <el-table-column prop="bid" label="bid" width="120" />
       <el-table-column prop="version" label="Difficulty" />
