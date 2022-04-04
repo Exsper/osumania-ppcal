@@ -53,14 +53,20 @@ export default {
   },
   name: "SayobotFastView",
   setup() {
-    let element = document.createElement("script");
-    element.setAttribute("src", "https://cdn.plot.ly/plotly-latest.min.js");
-    document.getElementsByTagName("head")[0].appendChild(element);
-    /*
+    if (!window.Plotly) {
+      let element = document.createElement("script");
+      //element.setAttribute("src", "https://cdn.plot.ly/plotly-latest.min.js");
+      element.setAttribute(
+        "src",
+        "https://cdn.staticfile.org/plotly.js/1.58.5/plotly.min.js"
+      );
+      document.getElementsByTagName("head")[0].appendChild(element);
+      /*
     element.onload = function () {
       this.plotlyReady = true;
     };
     */
+    }
   },
   data() {
     return {
