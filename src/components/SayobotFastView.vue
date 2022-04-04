@@ -45,14 +45,10 @@
 <script>
 import { PPCal, DrawInfo } from "@/common/js/ManiaPPCal";
 import SayobotApi from "@/common/js/SayobotApi";
-import { ElButton, ElInputNumber } from "element-plus";
 import SearchPanel from "@/components/SearchPanel.vue";
 
 export default {
   components: {
-    ElButton,
-    ElInputNumber,
-
     SearchPanel,
   },
   name: "SayobotFastView",

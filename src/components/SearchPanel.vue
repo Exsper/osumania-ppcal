@@ -58,15 +58,9 @@
 </template>
 
 <script>
-import { ElButton, ElTable, ElTableColumn } from "element-plus";
 import SayobotApi from "@/common/js/SayobotApi";
 
 export default {
-  components: {
-    ElButton,
-    ElTable,
-    ElTableColumn,
-  },
   name: "SearchPanel",
   data() {
     return {
