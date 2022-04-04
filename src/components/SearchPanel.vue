@@ -21,7 +21,7 @@
       <el-table-column prop="status" label="Status" width="60" />
       <el-table-column prop="title" label="Title" />
       <el-table-column prop="creator" label="Creator" width="80" />
-      <el-table-column label="Select" fixed="right" width="60">
+      <el-table-column fixed="right" width="60">
         <template #default="setScope">
           <el-button
             type="text"
@@ -39,10 +39,11 @@
       v-bind:hidden="!selectBidMode"
       size="small"
     >
-      <el-table-column prop="bid" label="bid" width="120" />
+      <el-table-column prop="bid" label="bid" width="100" />
       <el-table-column prop="version" label="Difficulty" />
-      <el-table-column prop="star" label="Stars" width="120" />
-      <el-table-column label="Select" fixed="right" width="120">
+      <el-table-column prop="keys" label="Keys" width="60" />
+      <el-table-column prop="star" label="Stars" width="80" />
+      <el-table-column fixed="right" width="60">
         <template #default="bidScope">
           <el-button
             type="text"

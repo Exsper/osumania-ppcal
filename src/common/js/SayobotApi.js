@@ -32,6 +32,7 @@ class BeatmapInfo {
     this.version = data.version;
     this.mode = data.mode; // mode=3
     this.star = data.star;
+    this.keys = data.CS;
   }
 
   toTableData() {
@@ -39,6 +40,7 @@ class BeatmapInfo {
       bid: this.bid,
       version: this.version,
       star: "★" + this.star,
+      keys: this.keys.toFixed(0) + "K",
     };
   }
 }
