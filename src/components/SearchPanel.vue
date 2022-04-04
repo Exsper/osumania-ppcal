@@ -18,10 +18,10 @@
           <img :src="thumbScope.row.thumb" width="50" height="37" />
         </template>
       </el-table-column>
-      <el-table-column prop="status" label="Status" width="60" />
+      <el-table-column prop="status" label="Status" width="80" />
       <el-table-column prop="title" label="Title" />
       <el-table-column prop="creator" label="Creator" width="80" />
-      <el-table-column fixed="right" width="60">
+      <el-table-column fixed="right" width="50">
         <template #default="setScope">
           <el-button
             type="text"
@@ -43,7 +43,7 @@
       <el-table-column prop="version" label="Difficulty" />
       <el-table-column prop="keys" label="Keys" width="60" />
       <el-table-column prop="star" label="Stars" width="80" />
-      <el-table-column fixed="right" width="60">
+      <el-table-column fixed="right" width="50">
         <template #default="bidScope">
           <el-button
             type="text"
@@ -99,7 +99,8 @@ export default {
       }
     },
     selectBid(bid) {
-      this.$emit("selectBid", bid);
+      let beatmapData = this.beatmapTableData.find((data) => data.bid === bid);
+      this.$emit("selectBid", beatmapData);
     },
     close() {
       this.$emit("removeSearchPanel");

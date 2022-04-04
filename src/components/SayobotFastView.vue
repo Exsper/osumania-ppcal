@@ -115,10 +115,13 @@ export default {
     setSearchPanel() {
       this.showSearchPanel = true;
     },
-    async selectBid(bid) {
-      this.bid = bid;
+    selectBid(beatmapData) {
+      this.bid = beatmapData.bid;
+      this.sr = beatmapData.sr;
+      this.od = beatmapData.od;
+      this.objCount = beatmapData.objCount;
       this.removeSearchPanel();
-      this.getData();
+      this.cal();
     },
     removeSearchPanel() {
       this.showSearchPanel = false;

@@ -10,12 +10,45 @@ class BeatmapSetInfo {
     this.sid = data.sid;
     this.creator = data.creator;
     this.thumb = "https://b.ppy.sh/thumb/" + this.sid + "l.jpg"; // 4:3
+    this.play_count = data.play_count;
   }
 
   toTableData() {
-    let status = "unrank";
-    if (this.approved === 1) status = "ranked";
-    else if (this.approved === 0) status = "loved";
+    let status = "";
+    switch (this.approved) {
+      case 0: {
+        status = "pending";
+        break;
+      }
+      case 1: {
+        status = "ranked";
+        break;
+      }
+      case 2: {
+        status = "approved";
+        break;
+      }
+      case 3: {
+        status = "qualified";
+        break;
+      }
+      case 4: {
+        status = "loved";
+        break;
+      }
+      case -1: {
+        status = "WIP";
+        break;
+      }
+      case -2: {
+        status = "graveyard";
+        break;
+      }
+      default: {
+        status = "unknown";
+        break;
+      }
+    }
     return {
       sid: this.sid,
       thumb: this.thumb,
@@ -33,12 +66,17 @@ class BeatmapInfo {
     this.mode = data.mode; // mode=3
     this.star = data.star;
     this.keys = data.CS;
+    this.od = data.OD;
+    this.objCount = data.circles + data.sliders;
   }
 
   toTableData() {
     return {
       bid: this.bid,
       version: this.version,
+      od: this.od,
+      sr: this.star,
+      objCount: this.objCount,
       star: "★" + this.star,
       keys: this.keys.toFixed(0) + "K",
     };
@@ -73,7 +111,9 @@ class SayabotApi {
     const result = await axios.get(url);
     if (!result.data) throw "获取谱面列表失败";
     if (result.data.status !== 0) throw "找不到相关谱面集";
-    return result.data.data.map((data) => new BeatmapSetInfo(data));
+    let bsis = result.data.data.map((data) => new BeatmapSetInfo(data));
+    // 按游玩次数排序
+    return bsis.sort((a, b) => b.play_count - a.play_count);
   }
 
   /**
@@ -89,7 +129,8 @@ class SayabotApi {
     let bis = result.data.data.bid_data.map((data) => new BeatmapInfo(data));
     bis = bis.filter((bi) => bi.mode === 3);
     if (bis.length <= 0) throw "找不到相关谱面";
-    return bis;
+    // 按难度排序
+    return bis.sort((a, b) => a.star - b.star);
   }
 }
 

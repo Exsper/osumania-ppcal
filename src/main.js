@@ -4,6 +4,7 @@ import router from "./router";
 import store from "./store";
 
 import { createI18n } from "vue-i18n";
+//import { createI18n } from "vue-i18n/index";
 import enMsg from "./components/i18n/en";
 import zhMsg from "./components/i18n/zh";
 
