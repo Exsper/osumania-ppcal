@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import HomeView from "../components/HomeView.vue";
-import AboutView from "../components/AboutView.vue";
+// import AboutView from "../components/AboutView.vue";
 import SayobotFastView from "../components/SayobotFastView.vue";
 
 const routes = [
@@ -14,11 +14,13 @@ const routes = [
     name: "sayo",
     component: SayobotFastView,
   },
+  /*
   {
     path: "/about",
     name: "about",
     component: AboutView,
   },
+  */
 ];
 
 const router = createRouter({

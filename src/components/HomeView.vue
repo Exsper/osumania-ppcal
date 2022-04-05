@@ -163,7 +163,7 @@ export default {
       pp: this.$i18n.messages[this.$i18n.locale].message.info_enter_data,
       maxScore: 1000000,
 
-      plotlyReady: false,
+      plotlyReady: true,
     };
   },
   methods: {
@@ -214,7 +214,9 @@ export default {
           this.cal();
           return;
         }
-        if (window.Plotly) {
+        if (!window.Plotly) {
+          this.plotlyReady = false;
+        } else {
           this.plotlyReady = true;
           let di = new DrawInfo(data, this.maxScore);
           window.Plotly.newPlot("graph", [di.getTrace()], di.getLayout(), {

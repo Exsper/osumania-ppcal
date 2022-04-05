@@ -79,7 +79,7 @@ export default {
       score: 1000000,
       pp: this.$i18n.messages[this.$i18n.locale].message.info_enter_data,
 
-      plotlyReady: false,
+      plotlyReady: true,
     };
   },
   methods: {
@@ -98,7 +98,9 @@ export default {
       };
       let pc = new PPCal(data);
       this.pp = pc.totalValue.toFixed(2);
-      if (window.Plotly) {
+      if (!window.Plotly) {
+        this.plotlyReady = false;
+      } else {
         this.plotlyReady = true;
         let di = new DrawInfo(data, pc.maxScore);
         window.Plotly.newPlot("graph", [di.getTrace()], di.getLayout(), {
