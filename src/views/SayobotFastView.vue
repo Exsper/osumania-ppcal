@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div>
     <span> {{ $t("message.option_sayo_only_mania_no_mod") }}</span>
     <br />
     <span>bid：</span>

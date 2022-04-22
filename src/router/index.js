@@ -1,7 +1,8 @@
 import { createRouter, createWebHashHistory } from "vue-router";
-import HomeView from "../components/HomeView.vue";
-// import AboutView from "../components/AboutView.vue";
-import SayobotFastView from "../components/SayobotFastView.vue";
+import HomeView from "../views/HomeView.vue";
+// import AboutView from "../views/AboutView.vue";
+import SayobotFastView from "../views/SayobotFastView.vue";
+import LevelRequire from "../views/LevelRequire.vue";
 
 const routes = [
   {
@@ -13,6 +14,11 @@ const routes = [
     path: "/sayo",
     name: "sayo",
     component: SayobotFastView,
+  },
+  {
+    path: "/level",
+    name: "level",
+    component: LevelRequire,
   },
   /*
   {

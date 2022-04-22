@@ -5,8 +5,8 @@ import store from "./store";
 
 import { createI18n } from "vue-i18n";
 //import { createI18n } from "vue-i18n/index";
-import enMsg from "./components/i18n/en";
-import zhMsg from "./components/i18n/zh";
+import enMsg from "./i18n/en";
+import zhMsg from "./i18n/zh";
 
 const i18n = createI18n({
   locale: "zh",

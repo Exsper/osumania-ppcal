@@ -9,6 +9,7 @@
     <el-menu-item index="/sayo">{{
       $t("message.page_mania_pp_cal_sayo")
     }}</el-menu-item>
+    <el-menu-item index="/level">我想升级</el-menu-item>
   </el-menu>
   <div class="menuright">
     <el-button class="langbtn" @click="changeLaguages">{{
@@ -42,7 +43,7 @@ export default {
     return {
       activeIndex,
       lang: "zh",
-      langText: "English",
+      langText: "English (incompleted)",
     };
   },
   name: "App",
@@ -50,7 +51,7 @@ export default {
     changeLaguages() {
       this.lang = this.$i18n.locale === "zh" ? "en" : "zh";
       this.$i18n.locale = this.lang;
-      this.langText = this.lang === "zh" ? "English" : "简体中文";
+      this.langText = this.lang === "zh" ? "English (incompleted)" : "简体中文";
     },
   },
 };

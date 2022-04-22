@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div>
     <el-checkbox v-model="isConvert" @change="cal" size="large" border>
       {{ $t("message.option_mapIsConvert") }}
     </el-checkbox>
