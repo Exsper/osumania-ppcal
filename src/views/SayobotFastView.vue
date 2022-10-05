@@ -21,17 +21,28 @@
     />
     <span> {{ $t("message.option_stars") }} ★{{ sr }}</span>
     <br />
-    <span> {{ $t("message.option_od") }} {{ od }}</span>
-    <br />
     <span> {{ $t("message.option_objCount") }} {{ objCount }}</span>
     <br />
-    <span>{{ $t("message.option_score") }}</span>
+    <span>Acc: </span>
+    <el-input-number
+      controls-position="right"
+      class="mx-4"
+      v-model="acc"
+      :min="0"
+      :max="100"
+      :precision="2"
+      :step="1"
+      @input="cal"
+    />
+    <span>% </span>
+    <span> （ 换算Acc: {{ cacc }} ）</span>
+    <br />
+    <span>彩300数量：</span>
     <el-input-number
       class="mx-4"
       :min="0"
-      :max="1000000"
-      :step="100000"
-      v-model="score"
+      :step="200"
+      v-model="numGeki"
       @input="cal"
     />
     <br />
@@ -74,9 +85,10 @@ export default {
 
       bid: 1234567,
       sr: 8,
-      od: 8,
       objCount: 2000,
-      score: 1000000,
+      acc: 96.0,
+      cacc: "0",
+      numGeki: 0,
       pp: this.$i18n.messages[this.$i18n.locale].message.info_enter_data,
 
       plotlyReady: true,
@@ -84,25 +96,26 @@ export default {
   },
   methods: {
     cal() {
+      if (this.numGeki > this.objCount) {
+        this.numGeki = this.objCount;
+        this.acc = 100.0;
+      }
       let data = {
-        isConvert: false,
         sr: this.sr,
-        od: this.od,
         objCount: this.objCount,
-        isHR: false,
-        isEZ: false,
-        isDT: false,
-        isHT: false,
-        isNF: false,
-        score: this.score,
+        isEZ: this.isEZ,
+        isNF: this.isNF,
+        acc: this.acc / 100.0,
+        numGeki: this.numGeki,
       };
       let pc = new PPCal(data);
+      this.cacc = (pc.cacc * 100).toFixed(2) + "%";
       this.pp = pc.totalValue.toFixed(2);
       if (!window.Plotly) {
         this.plotlyReady = false;
       } else {
         this.plotlyReady = true;
-        let di = new DrawInfo(data, pc.maxScore);
+        let di = new DrawInfo(data);
         window.Plotly.newPlot("graph", [di.getTrace()], di.getLayout(), {
           scrollZoom: true,
           responsive: true,
@@ -113,7 +126,6 @@ export default {
       try {
         let data = await SayobotApi.search(this.bid);
         this.sr = data.sr;
-        this.od = data.od;
         this.objCount = data.objCount;
         this.cal();
       } catch (ex) {
@@ -126,7 +138,6 @@ export default {
     selectBid(beatmapData) {
       this.bid = beatmapData.bid;
       this.sr = beatmapData.sr;
-      this.od = beatmapData.od;
       this.objCount = beatmapData.objCount;
       this.removeSearchPanel();
       this.cal();

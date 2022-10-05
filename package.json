@@ -1,6 +1,6 @@
 {
   "name": "osumania-ppcal",
-  "version": "0.4.2",
+  "version": "0.5.2",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",

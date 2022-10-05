@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
-// import AboutView from "../views/AboutView.vue";
+import AboutView from "../views/AboutView.vue";
 import SayobotFastView from "../views/SayobotFastView.vue";
 import LevelRequire from "../views/LevelRequire.vue";
 
@@ -20,13 +20,11 @@ const routes = [
     name: "level",
     component: LevelRequire,
   },
-  /*
   {
     path: "/about",
     name: "about",
     component: AboutView,
   },
-  */
 ];
 
 const router = createRouter({

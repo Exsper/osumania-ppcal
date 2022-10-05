@@ -10,11 +10,12 @@
       $t("message.page_mania_pp_cal_sayo")
     }}</el-menu-item>
     <el-menu-item index="/level">我想升级</el-menu-item>
+    <el-menu-item index="/about">关于</el-menu-item>
   </el-menu>
   <div class="menuright">
-    <el-button class="langbtn" @click="changeLaguages">{{
+    <!--<el-button class="langbtn" @click="changeLaguages">{{
       langText
-    }}</el-button>
+    }}</el-button>-->
     <a
       class="github"
       href="https://github.com/Exsper/osumania-ppcal"

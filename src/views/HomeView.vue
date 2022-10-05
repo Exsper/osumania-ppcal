@@ -1,47 +1,14 @@
 <template>
   <div>
-    <el-checkbox v-model="isConvert" @change="cal" size="large" border>
-      {{ $t("message.option_mapIsConvert") }}
-    </el-checkbox>
-    <span v-bind:hidden="isConvert === false">{{
-      $t("message.option_mapKeys")
-    }}</span>
-    <input
-      class="short"
-      v-model.number="mapKeys"
-      @input="changeMapKeys"
-      v-bind:hidden="isConvert === false"
-    />
-    <span v-bind:hidden="isConvert === false">{{
-      $t("message.option_playKeys")
-    }}</span>
-    <input
-      class="short"
-      v-model.number="playKeys"
-      @input="cal"
-      v-bind:hidden="isConvert === false"
-    />
-    <br />
     <span>{{ $t("message.option_stars_with_mods") }} ★</span>
     <el-input-number
       controls-position="right"
       class="mx-4"
       v-model="sr"
+      :min="0"
       :precision="2"
       :step="0.1"
       @input="cal"
-    />
-    <br />
-    <span>{{ $t("message.option_od_without_mods") }} OD</span>
-    <input class="short" v-model.number="od" @input="OD2ModOD" />
-    <span v-bind:hidden="!(isHR === true || isEZ === true)"
-      >{{ $t("message.option_od_with_mods") }} OD</span
-    >
-    <input
-      class="short"
-      v-bind:hidden="!(isHR === true || isEZ === true)"
-      v-model.number="od_mod"
-      @input="ModOD2OD"
     />
     <br />
     <span>{{ $t("message.option_objCount") }}</span>
@@ -53,7 +20,7 @@
       @input="cal"
     />
     <br />
-    <el-row :gutter="20">
+    <el-row :gutter="20" align="middle">
       <el-col :span="3"><span>Mods：</span></el-col>
       <el-col :span="2">
         <el-button
@@ -73,48 +40,29 @@
           >NF</el-button
         ></el-col
       >
-      <el-col :span="2">
-        <el-button
-          type="primary"
-          plain
-          :class="isHT ? 'checkedmod' : ''"
-          @click="changeHT"
-          >HT</el-button
-        ></el-col
-      >
     </el-row>
-    <el-row :gutter="20">
-      <el-col :span="2" :offset="3">
-        <el-button
-          type="primary"
-          plain
-          :class="isHR ? 'checkedmod' : ''"
-          @click="changeHR"
-          >HR</el-button
-        ></el-col
-      >
-      <el-col :span="2" :offset="2">
-        <el-button
-          type="primary"
-          plain
-          :class="isDT ? 'checkedmod' : ''"
-          @click="changeDT"
-          >DT</el-button
-        ></el-col
-      >
-    </el-row>
-
+    <span>Acc: </span>
+    <el-input-number
+      controls-position="right"
+      class="mx-4"
+      v-model="acc"
+      :min="0"
+      :max="100"
+      :precision="2"
+      :step="1"
+      @input="cal"
+    />
+    <span>% </span>
+    <span> （ 换算Acc: {{ cacc }} ）</span>
     <br />
-    <span>{{ $t("message.option_score") }}</span>
+    <span>彩300数量：</span>
     <el-input-number
       class="mx-4"
       :min="0"
-      :max="1000000"
-      :step="100000"
-      v-model="score"
+      :step="200"
+      v-model="numGeki"
       @input="cal"
     />
-    <span>{{ $t("message.option_maxScore") }}{{ maxScore }}</span>
     <br />
     <br />
     <span>PP：{{ pp }}</span>
@@ -147,103 +95,53 @@ export default {
   },
   data() {
     return {
-      isConvert: false,
-      mapKeys: 4,
-      playKeys: 4,
       sr: 5,
-      od: 8,
-      od_mod: 8,
       objCount: 1000,
-      isHR: false,
       isEZ: false,
-      isDT: false,
-      isHT: false,
       isNF: false,
-      score: 1000000,
       pp: this.$i18n.messages[this.$i18n.locale].message.info_enter_data,
-      maxScore: 1000000,
-
+      acc: 96.0,
+      cacc: "0",
+      numGeki: 0,
       plotlyReady: true,
     };
   },
   methods: {
-    OD2ModOD() {
-      if (this.isEZ) this.od_mod = this.od / 2;
-      else if (this.isHR) this.od_mod = Math.min(this.od * 1.4, 10).toFixed(2);
-      else this.od_mod = this.od;
-      this.cal();
-    },
-    ModOD2OD() {
-      if (this.isEZ) this.od = this.od_mod * 2;
-      else if (this.isHR) {
-        if (this.od_mod >= 10) this.od = "???";
-        else this.od = (this.od_mod / 1.4).toFixed(2);
-      } else this.od = this.od_mod;
-      this.cal();
-    },
-    changeMapKeys() {
-      this.playKeys = this.mapKeys;
-      this.cal();
-    },
     cal() {
-      if (this.od === "???") this.pp = "???";
-      else {
-        let data = {
-          isConvert: this.isConvert,
-          mapKeys: this.mapKeys,
-          playKeys: this.playKeys,
-          sr: this.sr,
-          od: this.od,
-          objCount: this.objCount,
-          isHR: this.isHR,
-          isEZ: this.isEZ,
-          isDT: this.isDT,
-          isHT: this.isHT,
-          isNF: this.isNF,
-          score: this.score,
-        };
-        let pc = new PPCal(data);
-        this.pp = pc.totalValue.toFixed(2);
-        this.maxScore = pc.maxScore;
-        if (this.score > this.maxScore) {
-          this.score = this.maxScore;
-          this.cal();
-          return;
-        } else if (this.score === this.maxScore / 2) {
-          this.score = this.maxScore;
-          this.cal();
-          return;
-        }
-        if (!window.Plotly) {
-          this.plotlyReady = false;
-        } else {
-          this.plotlyReady = true;
-          let di = new DrawInfo(data, this.maxScore);
-          window.Plotly.newPlot("graph", [di.getTrace()], di.getLayout(), {
-            scrollZoom: true,
-            responsive: true,
-          });
-        }
+      if (this.objCount <= 0) {
+        this.pp = "请输入正确的参数";
+        return;
       }
-    },
-    changeHR() {
-      this.isHR = !this.isHR;
-      this.isEZ = false;
-      this.OD2ModOD();
+      if (this.numGeki > this.objCount) {
+        this.numGeki = this.objCount;
+        this.acc = 100.0;
+      }
+      // 已知物件数和彩300数，计算acc最小值（所有非彩均为miss）
+      // this.minAcc = ((this.numGeki / this.objCount) * 100).toFixed(2) + "%";
+      let data = {
+        sr: this.sr,
+        objCount: this.objCount,
+        isEZ: this.isEZ,
+        isNF: this.isNF,
+        acc: this.acc / 100.0,
+        numGeki: this.numGeki,
+      };
+      let pc = new PPCal(data);
+      this.cacc = (pc.cacc * 100).toFixed(2) + "%";
+      this.pp = pc.totalValue.toFixed(2);
+      if (!window.Plotly) {
+        this.plotlyReady = false;
+      } else {
+        this.plotlyReady = true;
+        let di = new DrawInfo(data);
+        window.Plotly.newPlot("graph", [di.getTrace()], di.getLayout(), {
+          scrollZoom: true,
+          responsive: true,
+        });
+      }
     },
     changeEZ() {
       this.isEZ = !this.isEZ;
-      this.isHR = false;
-      this.OD2ModOD();
-    },
-    changeDT() {
-      this.isDT = !this.isDT;
-      this.isHT = false;
-      this.cal();
-    },
-    changeHT() {
-      this.isHT = !this.isHT;
-      this.isDT = false;
       this.cal();
     },
     changeNF() {
